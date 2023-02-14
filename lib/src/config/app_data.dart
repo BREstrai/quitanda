@@ -1,3 +1,4 @@
+import 'package:quitanda/src/models/cart_item_model.dart';
 import 'package:quitanda/src/models/item_model.dart';
 
 ItemModel maca = ItemModel(
@@ -70,4 +71,19 @@ List<String> categories = [
   "Carnes",
   "Temperos",
   "Cereais",
+];
+
+List<CartItemModel> cartItems = [
+  CartItemModel(
+    item: maca,
+    quantity: 2,
+  ),
+  CartItemModel(
+    item: manga,
+    quantity: 1,
+  ),
+  CartItemModel(
+    item: goiaba,
+    quantity: 3,
+  ),
 ];
