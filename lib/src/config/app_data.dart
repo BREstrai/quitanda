@@ -1,5 +1,6 @@
 import 'package:quitanda/src/models/cart_item_model.dart';
 import 'package:quitanda/src/models/item_model.dart';
+import 'package:quitanda/src/models/user_model.dart';
 
 ItemModel maca = ItemModel(
   description:
@@ -87,3 +88,10 @@ List<CartItemModel> cartItems = [
     quantity: 3,
   ),
 ];
+
+UserModel userModel = UserModel(
+    name: "Bruno",
+    password: "brestrai",
+    email: "brunoestrai@gmail.com",
+    phone: "46988275899",
+    cpf: "00000000000");
