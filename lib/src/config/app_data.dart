@@ -1,5 +1,6 @@
 import 'package:quitanda/src/models/cart_item_model.dart';
 import 'package:quitanda/src/models/item_model.dart';
+import 'package:quitanda/src/models/order_model.dart';
 import 'package:quitanda/src/models/user_model.dart';
 
 ItemModel maca = ItemModel(
@@ -95,3 +96,46 @@ UserModel userModel = UserModel(
     email: "brunoestrai@gmail.com",
     phone: "46988275899",
     cpf: "00000000000");
+
+List<OrderModel> orders = [
+  OrderModel(
+    id: 'asd645da6s2d1',
+    createdDateTime: DateTime.parse('2021-06-08 10:00:10.158'),
+    overdueDateTime: DateTime.parse('2021-06-08 11:00:10.158'),
+    items: [
+      CartItemModel(
+        item: maca,
+        quantity: 2,
+      ),
+      CartItemModel(
+        item: papaya,
+        quantity: 5,
+      ),
+      CartItemModel(
+        item: uva,
+        quantity: 2,
+      ),
+    ],
+    status: 'refunded',
+    copyAndPast: 'q1w2e3r4t5y6',
+    total: 11.0,
+  ),
+  OrderModel(
+    id: 'ankjn5jj2d1',
+    createdDateTime: DateTime.parse('2021-06-08 08:00:10.158'),
+    overdueDateTime: DateTime.parse('2023-02-19 23:00:10.158'),
+    items: [
+      CartItemModel(
+        item: manga,
+        quantity: 2,
+      ),
+      CartItemModel(
+        item: kiwi,
+        quantity: 2,
+      ),
+    ],
+    status: 'refunded',
+    copyAndPast: 'q1w2e3r4t5y6',
+    total: 11.0,
+  ),
+];
