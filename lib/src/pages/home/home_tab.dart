@@ -2,6 +2,7 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/pages/home/components/category_tile.dart';
 import 'package:quitanda/src/config/app_data.dart' as appData;
@@ -33,19 +34,32 @@ class _HomeTabState extends State<HomeTab> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text.rich(
-          TextSpan(
-            style: const TextStyle(fontSize: 30),
-            children: [
-              TextSpan(
-                text: "Green",
-                style: TextStyle(color: CustomColors.customSwatchColor),
-              ),
-              TextSpan(
-                text: "grocer",
-                style: TextStyle(color: CustomColors.customConstrastColor),
-              ),
-            ],
+        title: GestureDetector(
+          onTap: () {
+            Fluttertoast.showToast(
+              msg: 'Bah tchê',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          },
+          child: Text.rich(
+            TextSpan(
+              style: const TextStyle(fontSize: 30),
+              children: [
+                TextSpan(
+                  text: "Green",
+                  style: TextStyle(color: CustomColors.customSwatchColor),
+                ),
+                TextSpan(
+                  text: "grocer",
+                  style: TextStyle(color: CustomColors.customConstrastColor),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
