@@ -7,6 +7,7 @@ import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/pages/home/components/category_tile.dart';
 import 'package:quitanda/src/config/app_data.dart' as appData;
 import 'package:quitanda/src/pages/home/components/item_tile.dart';
+import 'package:quitanda/src/services/utils_service.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   String selectedCategory = "Frutas";
+
+  final UtilsServices utilsServices = UtilsServices();
 
   GlobalKey<CartIconKey> globalKeyCartItem = GlobalKey<CartIconKey>();
 
@@ -34,32 +37,19 @@ class _HomeTabState extends State<HomeTab> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: GestureDetector(
-          onTap: () {
-            Fluttertoast.showToast(
-              msg: 'Bah tchê',
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0,
-            );
-          },
-          child: Text.rich(
-            TextSpan(
-              style: const TextStyle(fontSize: 30),
-              children: [
-                TextSpan(
-                  text: "Green",
-                  style: TextStyle(color: CustomColors.customSwatchColor),
-                ),
-                TextSpan(
-                  text: "grocer",
-                  style: TextStyle(color: CustomColors.customConstrastColor),
-                ),
-              ],
-            ),
+        title: Text.rich(
+          TextSpan(
+            style: const TextStyle(fontSize: 30),
+            children: [
+              TextSpan(
+                text: "Green",
+                style: TextStyle(color: CustomColors.customSwatchColor),
+              ),
+              TextSpan(
+                text: "grocer",
+                style: TextStyle(color: CustomColors.customConstrastColor),
+              ),
+            ],
           ),
         ),
         actions: [
