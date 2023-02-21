@@ -11,9 +11,12 @@ class ItemTile extends StatelessWidget {
   ItemTile({
     Key? key,
     required this.item,
+    required this.cartAnimationMethod,
   }) : super(key: key);
 
   final UtilsServices utilsServices = UtilsServices();
+  final void Function(GlobalKey) cartAnimationMethod;
+  final GlobalKey imagemGk = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,10 @@ class ItemTile extends StatelessWidget {
                   //Imagem
                   Expanded(
                     child: Hero(
-                      child: Image.asset(item.imgUrl),
+                      child: Image.asset(
+                        item.imgUrl,
+                        key: imagemGk,
+                      ),
                       tag: item.imgUrl,
                     ),
                   ),
@@ -85,7 +91,9 @@ class ItemTile extends StatelessWidget {
           top: 4,
           right: 4,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              cartAnimationMethod(imagemGk);
+            },
             child: Container(
               height: 40,
               width: 35,
