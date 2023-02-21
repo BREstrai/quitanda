@@ -3,6 +3,7 @@ import 'package:quitanda/src/config/app_data.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/models/cart_item_model.dart';
 import 'package:quitanda/src/pages/cart/components/cart_tile.dart';
+import 'package:quitanda/src/pages/common_widgets/payment_dialog.dart';
 import 'package:quitanda/src/services/utils_service.dart';
 import 'package:quitanda/src/config/app_data.dart' as appData;
 
@@ -90,6 +91,17 @@ class _CartTabState extends State<CartTab> {
                     ),
                     onPressed: () async {
                       bool? result = await showOrderConfirmation();
+
+                      if (result ?? false) {
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return PaymentDialog(
+                              order: appData.orders.first,
+                            );
+                          },
+                        );
+                      }
                     },
                     child: const Text(
                       'Concluir pedido',

@@ -116,14 +116,14 @@ List<OrderModel> orders = [
         quantity: 2,
       ),
     ],
-    status: 'refunded',
+    status: 'pending_payment',
     copyAndPast: 'q1w2e3r4t5y6',
     total: 11.0,
   ),
   OrderModel(
     id: 'ankjn5jj2d1',
-    createdDateTime: DateTime.parse('2021-06-08 08:00:10.158'),
-    overdueDateTime: DateTime.parse('2023-02-19 23:00:10.158'),
+    createdDateTime: DateTime.parse('2023-02-20 08:00:10.158'),
+    overdueDateTime: DateTime.parse('2023-02-20 23:00:10.158'),
     items: [
       CartItemModel(
         item: manga,
@@ -134,7 +134,7 @@ List<OrderModel> orders = [
         quantity: 2,
       ),
     ],
-    status: 'refunded',
+    status: 'delivered',
     copyAndPast: 'q1w2e3r4t5y6',
     total: 11.0,
   ),
