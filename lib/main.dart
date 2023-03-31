@@ -4,6 +4,9 @@ import 'package:quitanda/src/pages/auth/controller/auth_controller.dart';
 import 'package:quitanda/src/pages_routes/app_pages.dart';
 
 void main() {
+  //Pra iniciar tudo que é necessário antes de começar a rodar o app.
+  WidgetsFlutterBinding.ensureInitialized();
+
   Get.put(AuthController());
   runApp(const MyApp());
 }

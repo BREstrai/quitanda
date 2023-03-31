@@ -1,11 +1,46 @@
 import 'package:get/get.dart';
+import 'package:quitanda/src/constants/storage_keys.dart';
+import 'package:quitanda/src/models/user_model.dart';
 import 'package:quitanda/src/pages/auth/repository/auth_repository.dart';
 import 'package:quitanda/src/pages/auth/result/auth_result.dart';
+import 'package:quitanda/src/pages_routes/app_pages.dart';
+import 'package:quitanda/src/services/utils_service.dart';
 
 class AuthController extends GetxController {
   final authRepository = AuthRepository();
+  final utilsServices = UtilsServices();
+
+  UserModel user = UserModel();
 
   RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    validateToken();
+  }
+
+  Future<void> validateToken() async {
+    String? token = await utilsServices.getLocalData(key: StorageKeys.token);
+
+    if (token == null) {
+      Get.offAllNamed(PagesRoutes.signInRoute);
+      return;
+    } else {
+      AuthResult result = await authRepository.validateToken(token);
+
+      result.when(
+        success: (user) {
+          this.user = user;
+          saveTokenAndProccedToBase();
+        },
+        error: (message) {
+          signOut();
+        },
+      );
+    }
+  }
 
   Future<void> signIn({
     required String email,
@@ -20,11 +55,33 @@ class AuthController extends GetxController {
 
     result.when(
       success: (user) {
-        print(user);
+        this.user = user;
+
+        saveTokenAndProccedToBase();
       },
       error: (message) {
-        print(message);
+        utilsServices.showToasts(
+          descricao: message,
+          isError: true,
+        );
       },
     );
+  }
+
+  void saveTokenAndProccedToBase() {
+    utilsServices.saveLocalData(
+      key: StorageKeys.token,
+      data: user.token!,
+    );
+
+    Get.offAllNamed(PagesRoutes.homeRoute);
+  }
+
+  Future<void> signOut() async {
+    user = UserModel();
+
+    utilsServices.removeLocalData(key: StorageKeys.token);
+
+    Get.offAllNamed(PagesRoutes.signInRoute);
   }
 }
