@@ -91,11 +91,14 @@ List<CartItemModel> cartItems = [
 ];
 
 UserModel userModel = UserModel(
-    name: "Bruno",
-    password: "brestrai",
-    email: "brunoestrai@gmail.com",
-    phone: "46988275899",
-    cpf: "00000000000");
+  name: "Bruno",
+  password: "brestrai",
+  email: "brunoestrai@gmail.com",
+  phone: "46988275899",
+  cpf: "00000000000",
+  id: "asd123",
+  token: "saddasdasdasdasdasdasdasdasd",
+);
 
 List<OrderModel> orders = [
   OrderModel(
