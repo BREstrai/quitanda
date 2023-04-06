@@ -1,5 +1,7 @@
+import 'package:get/get.dart';
 import 'package:quitanda/src/config/app_data.dart' as appData;
 import 'package:flutter/material.dart';
+import 'package:quitanda/src/pages/auth/controller/auth_controller.dart';
 import 'package:quitanda/src/pages/common_widgets/custom_text_field.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -10,6 +12,8 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +23,15 @@ class _ProfileTabState extends State<ProfileTab> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.logout),
+            onPressed: () {
+              authController.signOut();
+            },
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
         children: [
           CustomTextField(
@@ -129,12 +135,12 @@ class _ProfileTabState extends State<ProfileTab> {
                       height: 45,
                       child: ElevatedButton(
                         onPressed: () {},
-                        child: const Text("Atualizar"),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
+                        child: const Text("Atualizar"),
                       ),
                     )
                   ],

@@ -2,10 +2,13 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quitanda/src/pages/auth/controller/auth_controller.dart';
+import 'package:quitanda/src/pages/auth/view/components/forgot_password_dialog.dart';
 import 'package:quitanda/src/pages/common_widgets/app_name_widget.dart';
 import 'package:quitanda/src/pages/common_widgets/custom_text_field.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/pages_routes/app_pages.dart';
+import 'package:quitanda/src/services/utils_service.dart';
+import 'package:quitanda/src/services/validators.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class SignInScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
+
+  final utilsServices = UtilsServices();
 
   @override
   Widget build(BuildContext context) {
@@ -74,15 +79,7 @@ class SignInScreen extends StatelessWidget {
                       //Campo de email
                       CustomTextField(
                         controller: emailController,
-                        validator: (email) {
-                          if (email == null || email.isEmpty) {
-                            return "Digite seu email";
-                          }
-
-                          if (!email.isEmail) return "Digite um email válido";
-
-                          return null;
-                        },
+                        validator: emailValidator,
                         iconData: Icons.email,
                         label: "Email",
                       ),
@@ -90,17 +87,7 @@ class SignInScreen extends StatelessWidget {
                       //Campo de Senha
                       CustomTextField(
                         controller: senhaController,
-                        validator: (password) {
-                          if (password == null || password.isEmpty) {
-                            return "Digite sua senha";
-                          }
-
-                          if (password.length < 7) {
-                            return "Digite uma senha com mais de 7 caracteres";
-                          }
-
-                          return null;
-                        },
+                        validator: passwordValidator,
                         iconData: Icons.lock,
                         label: "Senha",
                         isSecret: true,
@@ -144,7 +131,23 @@ class SignInScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final bool? result = await showDialog(
+                              context: context,
+                              builder: (_) {
+                                return ForgotPasswordDialog(
+                                  email: emailController.text,
+                                );
+                              },
+                            );
+
+                            if (result ?? false) {
+                              utilsServices.showToasts(
+                                descricao:
+                                    'Um link de recuperação foi enviado para seu email',
+                              );
+                            }
+                          },
                           child: Text(
                             "Esqueceu sua senha?",
                             style: TextStyle(

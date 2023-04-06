@@ -21,6 +21,27 @@ class AuthController extends GetxController {
     validateToken();
   }
 
+  Future<void> signUp() async {
+    AuthResult result = await authRepository.signUp(user);
+
+    result.when(
+      success: (user) {
+        this.user = user;
+        saveTokenAndProccedToBase();
+      },
+      error: (message) {
+        utilsServices.showToasts(
+          descricao: message,
+          isError: true,
+        );
+      },
+    );
+  }
+
+  Future<void> forgotPassword(String email) async {
+    await authRepository.forgotPassword(email);
+  }
+
   Future<void> validateToken() async {
     String? token = await utilsServices.getLocalData(key: StorageKeys.token);
 

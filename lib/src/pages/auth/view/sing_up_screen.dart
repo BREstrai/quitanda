@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:quitanda/src/pages/auth/controller/auth_controller.dart';
 import 'package:quitanda/src/pages/common_widgets/custom_text_field.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
+import 'package:quitanda/src/services/validators.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -15,6 +18,9 @@ class SignUpScreen extends StatelessWidget {
     mask: '## # ####-####',
     filter: {'#': RegExp(r'[0-9]')},
   );
+
+  final _formKey = GlobalKey<FormState>();
+  final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,48 +59,89 @@ class SignUpScreen extends StatelessWidget {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(45)),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const CustomTextField(
-                          iconData: Icons.email,
-                          label: "Email",
-                        ),
-                        const CustomTextField(
-                          iconData: Icons.lock,
-                          label: "Senha",
-                          isSecret: true,
-                        ),
-                        const CustomTextField(
-                          iconData: Icons.person,
-                          label: "Nome",
-                        ),
-                        CustomTextField(
-                          iconData: Icons.phone,
-                          label: "Celular",
-                          inputFormatter: [phoneFormatter],
-                        ),
-                        CustomTextField(
-                          iconData: Icons.file_copy,
-                          label: "CPF",
-                          inputFormatter: [cpfFormatter],
-                        ),
-                        SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "Cadastrar usuário",
-                              style: TextStyle(fontSize: 18),
-                            ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          CustomTextField(
+                            iconData: Icons.email,
+                            label: "Email",
+                            onSaved: (value) {
+                              authController.user.email = value;
+                            },
+                            validator: emailValidator,
+                            textInputType: TextInputType.emailAddress,
                           ),
-                        ),
-                      ],
+                          CustomTextField(
+                            iconData: Icons.lock,
+                            label: "Senha",
+                            onSaved: (value) {
+                              authController.user.password = value;
+                            },
+                            validator: passwordValidator,
+                            isSecret: true,
+                          ),
+                          CustomTextField(
+                            iconData: Icons.person,
+                            label: "Nome",
+                            onSaved: (value) {
+                              authController.user.name = value;
+                            },
+                          ),
+                          CustomTextField(
+                              iconData: Icons.phone,
+                              label: "Celular",
+                              validator: phoneValidator,
+                              onSaved: (value) {
+                                authController.user.phone = value;
+                              },
+                              inputFormatter: [phoneFormatter],
+                              textInputType: TextInputType.phone),
+                          CustomTextField(
+                              iconData: Icons.file_copy,
+                              label: "CPF",
+                              onSaved: (value) {
+                                authController.user.cpf = value;
+                              },
+                              validator: cpfValidator,
+                              inputFormatter: [cpfFormatter],
+                              textInputType: TextInputType.number),
+                          SizedBox(
+                            height: 50,
+                            child: Obx(() {
+                              return ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                ),
+                                onPressed: authController.isLoading.value
+                                    ? null
+                                    : () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+
+                                          authController.signUp();
+
+                                          FocusScope.of(context).unfocus();
+
+                                          print(authController.user);
+                                        }
+                                      },
+                                child: authController.isLoading.value
+                                    ? const CircularProgressIndicator()
+                                    : const Text(
+                                        "Cadastrar usuário",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
