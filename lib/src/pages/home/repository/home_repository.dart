@@ -1,5 +1,6 @@
 import 'package:quitanda/src/constants/endpoints.dart';
 import 'package:quitanda/src/models/category_model.dart';
+import 'package:quitanda/src/models/item_model.dart';
 import 'package:quitanda/src/pages/home/result/home_result.dart';
 import 'package:quitanda/src/services/http_manager.dart';
 
@@ -21,6 +22,24 @@ class HomeRepository {
     } else {
       return HomeResult.error(
           "Ocorreu um erro inesperado ao recuperar as categorias.");
+    }
+  }
+
+  Future<HomeResult<ItemModel>> getAllProduct(Map<String, dynamic> body) async {
+    final result = await _httpManager.restRequest(
+      url: Endpoints.getAllProduct,
+      method: HttMethods.post,
+      body: body,
+    );
+
+    if (result['result'] != null) {
+      List<ItemModel> data = (List<Map<String, dynamic>>.from(result['result']))
+          .map(ItemModel.fromJson)
+          .toList();
+      return HomeResult<ItemModel>.success(data);
+    } else {
+      return HomeResult.error(
+          "Ocorreu um erro inesperado ao recuperar os itens.");
     }
   }
 }
