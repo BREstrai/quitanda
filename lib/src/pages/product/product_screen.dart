@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/models/item_model.dart';
+import 'package:quitanda/src/pages/base/controller/navigation_controller.dart';
+import 'package:quitanda/src/pages/cart/controller/cart_controller.dart';
 import 'package:quitanda/src/pages/common_widgets/quantity_widget.dart';
 import 'package:quitanda/src/services/utils_service.dart';
 
 class ProductScreen extends StatefulWidget {
-  ProductScreen({Key? key, required this.item}) : super(key: key);
+  ProductScreen({
+    Key? key,
+  }) : super(key: key);
 
-  final ItemModel item;
+  final ItemModel item = Get.arguments;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -17,6 +22,8 @@ class _ProductScreenState extends State<ProductScreen> {
   final UtilsServices utilsServices = UtilsServices();
 
   int cartItemQuantity = 1;
+  final cartController = Get.find<CartController>();
+  final navigationController = Get.find<NavigationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +36,13 @@ class _ProductScreenState extends State<ProductScreen> {
             children: [
               Expanded(
                 child: Hero(
-                  child: Image.asset(widget.item.imgUrl),
                   tag: widget.item.imgUrl,
+                  child: Image.network(widget.item.imgUrl),
                 ),
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.vertical(
@@ -59,7 +66,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               widget.item.itemName,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 27),
+                              style: const TextStyle(fontSize: 27),
                             ),
                           ),
                           QuantityWidget(
@@ -106,7 +113,17 @@ class _ProductScreenState extends State<ProductScreen> {
                       SizedBox(
                         height: 55,
                         child: ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            //Fechar a tela
+                            Get.back();
+                            cartController.addItemToCart(
+                              item: widget.item,
+                              quantity: cartItemQuantity,
+                            );
+                            //Abrir o carrinho
+                            navigationController
+                                .navigatePageView(NavigationTabs.cart);
+                          },
                           label: const Text(
                             "Add no carrinho",
                             style: TextStyle(
@@ -140,7 +157,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
               ),
             ),
           ),

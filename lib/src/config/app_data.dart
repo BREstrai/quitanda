@@ -1,4 +1,3 @@
-import 'package:quitanda/src/models/cart_item_model.dart';
 import 'package:quitanda/src/models/item_model.dart';
 import 'package:quitanda/src/models/order_model.dart';
 import 'package:quitanda/src/models/user_model.dart';
@@ -75,20 +74,20 @@ List<String> categories = [
   "Cereais",
 ];
 
-List<CartItemModel> cartItems = [
-  CartItemModel(
-    item: maca,
-    quantity: 2,
-  ),
-  CartItemModel(
-    item: manga,
-    quantity: 1,
-  ),
-  CartItemModel(
-    item: goiaba,
-    quantity: 3,
-  ),
-];
+// List<CartItemModel> cartItems = [
+//   CartItemModel(
+//     item: maca,
+//     quantity: 2,
+//   ),
+//   CartItemModel(
+//     item: manga,
+//     quantity: 1,
+//   ),
+//   CartItemModel(
+//     item: goiaba,
+//     quantity: 3,
+//   ),
+// ];
 
 UserModel userModel = UserModel(
   name: "Bruno",
@@ -101,44 +100,49 @@ UserModel userModel = UserModel(
 );
 
 List<OrderModel> orders = [
-  OrderModel(
-    id: 'asd645da6s2d1',
-    createdDateTime: DateTime.parse('2021-06-08 10:00:10.158'),
-    overdueDateTime: DateTime.parse('2021-06-08 11:00:10.158'),
-    items: [
-      CartItemModel(
-        item: maca,
-        quantity: 2,
-      ),
-      CartItemModel(
-        item: papaya,
-        quantity: 5,
-      ),
-      CartItemModel(
-        item: uva,
-        quantity: 2,
-      ),
-    ],
-    status: 'pending_payment',
-    copyAndPast: 'q1w2e3r4t5y6',
-    total: 11.0,
-  ),
-  OrderModel(
-    id: 'ankjn5jj2d1',
-    createdDateTime: DateTime.parse('2023-02-20 08:00:10.158'),
-    overdueDateTime: DateTime.parse('2023-02-20 23:00:10.158'),
-    items: [
-      CartItemModel(
-        item: manga,
-        quantity: 2,
-      ),
-      CartItemModel(
-        item: kiwi,
-        quantity: 2,
-      ),
-    ],
-    status: 'delivered',
-    copyAndPast: 'q1w2e3r4t5y6',
-    total: 11.0,
-  ),
+  // OrderModel(
+  //   id: 'asd645da6s2d1',
+  //   createdDateTime: DateTime.parse('2021-06-08 10:00:10.158'),
+  //   overdueDateTime: DateTime.parse('2021-06-08 11:00:10.158'),
+  //   items: [
+  //     CartItemModel(
+  //       id: '1',
+  //       item: maca,
+  //       quantity: 2,
+  //     ),
+  //     CartItemModel(
+  //       id: '2',
+  //       item: papaya,
+  //       quantity: 5,
+  //     ),
+  //     CartItemModel(
+  //       id: '3',
+  //       item: uva,
+  //       quantity: 2,
+  //     ),
+  //   ],
+  //   status: 'pending_payment',
+  //   copyAndPast: 'q1w2e3r4t5y6',
+  //   total: 11.0,
+  // ),
+  // OrderModel(
+  //   id: 'ankjn5jj2d1',
+  //   createdDateTime: DateTime.parse('2023-02-20 08:00:10.158'),
+  //   overdueDateTime: DateTime.parse('2023-02-20 23:00:10.158'),
+  //   items: [
+  //     CartItemModel(
+  //       id: '4',
+  //       item: manga,
+  //       quantity: 2,
+  //     ),
+  //     CartItemModel(
+  //       id: '5',
+  //       item: kiwi,
+  //       quantity: 2,
+  //     ),
+  //   ],
+  //   status: 'delivered',
+  //   copyAndPast: 'q1w2e3r4t5y6',
+  //   total: 11.0,
+  // ),
 ];

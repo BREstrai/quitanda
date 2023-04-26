@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quitanda/src/config/custom_colors.dart';
 import 'package:quitanda/src/models/item_model.dart';
-import 'package:quitanda/src/pages/product/product_screen.dart';
+import 'package:quitanda/src/pages/cart/controller/cart_controller.dart';
+import 'package:quitanda/src/pages_routes/app_pages.dart';
 import 'package:quitanda/src/services/utils_service.dart';
 
 class ItemTile extends StatefulWidget {
@@ -24,6 +25,7 @@ class _ItemTileState extends State<ItemTile> {
   final UtilsServices utilsServices = UtilsServices();
 
   IconData tileIcon = Icons.add_shopping_cart_outlined;
+  final cartController = Get.find<CartController>();
 
   Future<void> switchIcon() async {
     setState(() => tileIcon = Icons.check);
@@ -42,11 +44,10 @@ class _ItemTileState extends State<ItemTile> {
         // Conteudo
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (c) {
-              return ProductScreen(
-                item: widget.item,
-              );
-            }));
+            Get.toNamed(
+              PagesRoutes.productRoute,
+              arguments: widget.item,
+            );
           },
           child: Card(
             elevation: 1,
@@ -116,6 +117,11 @@ class _ItemTileState extends State<ItemTile> {
               child: InkWell(
                 onTap: () {
                   switchIcon();
+
+                  cartController.addItemToCart(
+                    item: widget.item,
+                  );
+
                   widget.cartAnimationMethod(imagemGk);
                 },
                 child: Ink(

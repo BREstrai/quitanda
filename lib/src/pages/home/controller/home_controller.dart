@@ -15,12 +15,29 @@ class HomeController extends GetxController {
   CategoryModel? currentCategory;
   List<ItemModel> get allProducts => currentCategory?.items ?? [];
 
+  bool get isLastPage {
+    if (currentCategory!.items.length < itemsPerPage) return true;
+
+    return currentCategory!.pagination * itemsPerPage > allProducts.length;
+  }
+
   bool isCategoryLoading = false;
   bool isProductLoading = true;
+
+  RxString searchTitle = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    debounce(
+      searchTitle,
+      (_) => filterByTile(),
+      time: const Duration(
+        milliseconds: 600,
+      ),
+    );
+
     getAllCategories();
   }
 
@@ -68,17 +85,27 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> getAllProducts() async {
-    setLoading(
-      true,
-      isProduct: true,
-    );
+  Future<void> getAllProducts({bool canLoad = true}) async {
+    if (canLoad) {
+      setLoading(
+        true,
+        isProduct: true,
+      );
+    }
 
     Map<String, dynamic> body = {
       'page': currentCategory!.pagination,
       'categoryId': currentCategory!.id,
-      "itemsPerPage": itemsPerPage,
+      'itemsPerPage': itemsPerPage,
     };
+
+    if (searchTitle.value.isNotEmpty) {
+      body['title'] = searchTitle.value;
+
+      if (currentCategory!.id == '') {
+        body.remove('categoryId');
+      }
+    }
 
     HomeResult<ItemModel> result = await homeRepository.getAllProduct(body);
 
@@ -89,12 +116,7 @@ class HomeController extends GetxController {
 
     result.when(
       success: (data) {
-        print(data);
-        currentCategory!.items = data;
-
-        if (allCategory.isEmpty) return;
-
-        selectCategory(allCategory.first);
+        currentCategory!.items.addAll(data);
       },
       error: (message) {
         utilsServices.showToasts(
@@ -103,5 +125,45 @@ class HomeController extends GetxController {
         );
       },
     );
+  }
+
+  void loadMoreProducts() {
+    currentCategory!.pagination++;
+
+    getAllProducts(canLoad: false);
+  }
+
+  void filterByTile() {
+    //Remover produtos de todas categorias
+    for (var category in allCategory) {
+      //
+      category.items.clear();
+      category.pagination = 0;
+
+      if (searchTitle.value.isEmpty) {
+        allCategory.removeAt(0);
+      } else {
+        CategoryModel? c = allCategory.firstWhereOrNull((cat) => cat.id == '');
+
+        if (c == null) {
+          final allProductsCategories = CategoryModel(
+            title: 'Todos',
+            id: '',
+            items: [],
+            pagination: 0,
+          );
+
+          allCategory.insert(0, allProductsCategories);
+        } else {
+          c.items.clear();
+          c.pagination = 0;
+        }
+      }
+    }
+    currentCategory = allCategory.first;
+
+    update();
+
+    getAllProducts();
   }
 }
