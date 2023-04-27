@@ -9,6 +9,7 @@ part 'order_model.g.dart';
 class OrderModel {
   String id;
 
+  @JsonKey(name: 'createdAt')
   DateTime? createdDateTime;
 
   @JsonKey(name: 'due')
@@ -36,6 +37,8 @@ class OrderModel {
     required this.copyAndPast,
     required this.total,
   });
+
+  bool get isOverDue => overdueDateTime.isBefore(DateTime.now());
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);

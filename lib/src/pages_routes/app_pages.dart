@@ -5,6 +5,7 @@ import 'package:quitanda/src/pages/base/base_screen.dart';
 import 'package:quitanda/src/pages/base/binding/navigation.binding.dart';
 import 'package:quitanda/src/pages/cart/binding/cart_binding.dart';
 import 'package:quitanda/src/pages/home/binding/home_dibing.dart';
+import 'package:quitanda/src/pages/orders/binding/orders_binding.dart';
 import 'package:quitanda/src/pages/product/product_screen.dart';
 import 'package:quitanda/src/pages/splash/splash_screen.dart';
 
@@ -33,6 +34,7 @@ abstract class AppPages {
         NavigationBindings(),
         HomeBiding(),
         CartBinding(),
+        OrdersBindigs(),
       ],
     ),
   ];
