@@ -9,7 +9,6 @@ import 'package:quitanda/src/pages/cart/controller/cart_controller.dart';
 import 'package:quitanda/src/pages/common_widgets/app_name_widget.dart';
 import 'package:quitanda/src/pages/common_widgets/custom_shimmer.dart';
 import 'package:quitanda/src/pages/home/controller/home_controller.dart';
-import 'package:quitanda/src/config/app_data.dart' as appData;
 import 'package:quitanda/src/pages/home/view/components/category_tile.dart';
 import 'package:quitanda/src/pages/home/view/components/item_tile.dart';
 import 'package:quitanda/src/services/utils_service.dart';
@@ -233,7 +232,7 @@ class _HomeTabState extends State<HomeTab> {
                         crossAxisSpacing: 10,
                         childAspectRatio: 9 / 11.5,
                         children: List.generate(
-                          appData.items.length,
+                          controller.allProducts.length,
                           (index) => CustomShimmer(
                             height: double.infinity,
                             width: double.infinity,

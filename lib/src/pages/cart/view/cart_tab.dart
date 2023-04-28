@@ -91,7 +91,8 @@ class _CartTabState extends State<CartTab> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18)),
                       ),
-                      onPressed: controller.isCheckoudloading
+                      onPressed: (controller.isCheckoudloading ||
+                              controller.cartItems.isEmpty)
                           ? null
                           : () async {
                               bool? result = await showOrderConfirmation();
